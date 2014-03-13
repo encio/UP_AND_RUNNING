@@ -1,8 +1,8 @@
+import gui.AppMain;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-
 
 
 
@@ -12,6 +12,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import data.xml;
+
 import java.io.IOException;
 import java.net.*;
 
@@ -19,35 +21,24 @@ public class main {
 	
 	public static void main(String[] args){
 		
-		String url = "http://localhost:8080/FinalJSP/hello.jsp";
+		xml test = xml.getInstance();
+		test.setDocument("http://localhost:8080/FinalJSP/hello.jsp");
+		test.setNodelist("tour");
 		
-
+		
 			
-	        try {
-				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder builder = factory.newDocumentBuilder();
-				Document doc = builder.parse(new URL(url).openStream());
+			for(int i = 0;  i < 1; i++){
 				
-				NodeList NList = doc.getElementsByTagName("tour");
+				Node node = test.getNodelist().item(i);
 				
-				for(int i = 0;  i < NList.getLength(); i++){
+				if( node.getNodeType() == Node.ELEMENT_NODE ){
+					Element element = (Element)node;
 					
-					Node node = NList.item(i);
-					
-					if( node.getNodeType() == Node.ELEMENT_NODE ){
-						Element element = (Element)node;
-						
-						System.out.println(element.getElementsByTagName("tourId").item(0).getTextContent());
-						System.out.println(element.getElementsByTagName("description").item(0).getTextContent());
-					}
-					
+					System.out.println(element.getElementsByTagName("tourId").item(0).getTextContent());
+					System.out.println(element.getElementsByTagName("description").item(0).getTextContent());
 				}
-			} catch (ParserConfigurationException
-					| SAXException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-		
-	}
 
+
+	}
 }
